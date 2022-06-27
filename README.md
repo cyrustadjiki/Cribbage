@@ -1,5 +1,5 @@
-# Cribbage
-Rough draft deisgn of a cribbage board I am making
+# Cribbage Board Design (rough draft)  
 
+This was made using ggplot2
 
 ![https://github.com/cyrustadjiki/Cribbage/blob/main/board.png](board.png)
