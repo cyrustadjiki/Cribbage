@@ -1,7 +1,7 @@
 library(ggplot2)
 ls = 1:140
 
-#Setting parameters for sin functions
+#Parameters for sin functions
 u = 4.884
 b = (u-0)/140
 r = (u-0)/140
