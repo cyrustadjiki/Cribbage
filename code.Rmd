@@ -13,7 +13,7 @@ library(ggplot2)
 library(ggthemes)
 ```
 
-# Parameters for sin functions
+# Setting Parameters for sin functions
 ```{r}
 ls = 1:144 # list of all dots including stop points
 u = 8
@@ -135,7 +135,7 @@ s = 0.65
 alph_line = 0.5
 alph_point = 5
 
-plot = ggplot() + 
+board = ggplot() + 
     geom_hline(yintercept = seq(0,2,0.5), color = "gray42") +
     geom_vline(xintercept = seq(0,8,1), color = "gray42") +
     geom_point(data = blue_data, 
@@ -176,7 +176,7 @@ plot = ggplot() +
                        expand = c(0, 0)
                        ) #might want to hard code max(blue_y)*1.05
 
-plot + 
+board + 
   # theme_solarized_2(light = FALSE) + # Potential Theme
   theme(panel.background = element_rect(fill = "gray69"),
         axis.title.x = element_blank(),axis.title.y=element_blank(), # Removes Axis Title
@@ -187,10 +187,6 @@ plot +
 
 aspect_ratio <- 3 # Not Sure why but 3 scales us to 4 better than 4 does:(
 height <- 2
-ggsave("plot.png", height = 2 , width = 2 * aspect_ratio)
-```
-
-```{r}
-
+ggsave("board.png", height = 2 , width = 2 * aspect_ratio)
 ```
 

@@ -60,6 +60,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 .main-container {
   max-width: 940px;
@@ -80,6 +81,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -173,8 +177,8 @@ pre code {
 <pre class="r"><code>library(ggplot2)
 library(ggthemes)</code></pre>
 </div>
-<div id="parameters-for-sin-functions" class="section level1">
-<h1>Parameters for sin functions</h1>
+<div id="setting-parameters-for-sin-functions" class="section level1">
+<h1>Setting Parameters for sin functions</h1>
 <pre class="r"><code>ls = 1:144 # list of all dots including stop points
 u = 8
 b = (u-0)/144
@@ -276,7 +280,7 @@ s = 0.65
 alph_line = 0.5
 alph_point = 5
 
-plot = ggplot() + 
+board = ggplot() + 
     geom_hline(yintercept = seq(0,2,0.5), color = &quot;gray42&quot;) +
     geom_vline(xintercept = seq(0,8,1), color = &quot;gray42&quot;) +
     geom_point(data = blue_data, 
@@ -317,7 +321,7 @@ plot = ggplot() +
                        expand = c(0, 0)
                        ) #might want to hard code max(blue_y)*1.05
 
-plot + 
+board + 
   # theme_solarized_2(light = FALSE) + # Potential Theme
   theme(panel.background = element_rect(fill = &quot;gray69&quot;),
         axis.title.x = element_blank(),axis.title.y=element_blank(), # Removes Axis Title
@@ -329,7 +333,7 @@ plot +
 
 aspect_ratio &lt;- 3 # Not Sure why but 3 scales us to 4 better than 4 does:(
 height &lt;- 2
-ggsave(&quot;plot.png&quot;, height = 2 , width = 2 * aspect_ratio)</code></pre>
+ggsave(&quot;board.png&quot;, height = 2 , width = 2 * aspect_ratio)</code></pre>
 </div>
 
 
