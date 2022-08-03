@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Notes:
+0. Remove white boarder
 1. See ration of saved image at bottom
 2. I'm thinking for dimension no longer than 16 inched and wider than 5 inches
 3. I believe Barbra said holes are drilled 1/8 inch thick
@@ -188,9 +189,9 @@ board = ggplot() +
     # BLUE START LINE
     geom_line(
               data = data.frame(
-              rep(red_data_clean[1,1], 2) -0.05,
+              rep(red_data_clean[1,1], 2) -0.0385,
               c(top_start,top_start-0.19)),
-              aes(x = (rep(red_data_clean[1,1] -0.05)),
+              aes(x = (rep(red_data_clean[1,1] -0.0385)),
                   y = c(top_start,top_start-0.19)
                   ),
               color = "blue", 
@@ -210,13 +211,13 @@ board = ggplot() +
     # BLUE START DOTS
     geom_point(
               data = data.frame(
-              rep(red_data_clean[1,1], 3) -0.05,
+              rep(red_data_clean[1,1], 3) -0.04,
               seq(1.04, 0.89, (-0.15)/2)
               ), 
-              aes(x=rep(red_data_clean[1,1], 3) -0.05,
+              aes(x=rep(red_data_clean[1,1], 3) -0.04,
                   y=seq(1.04, 0.89, (-0.15)/2)), 
               color = "blue", 
-              size = line_size, 
+              size = dot_size, 
               alpha = alph_line) +
     # RED START DOTS
     geom_point(
@@ -227,21 +228,56 @@ board = ggplot() +
               aes(x=rep(red_data_clean[1,1], 3),
                   y=seq(1.04, 0.89, (-0.15)/2)), 
               color = "red", 
-              size = line_size, 
+              size = dot_size, 
               alpha = alph_line) +
     # BLUE BEST OF 7 LINE
     geom_line(
               data = data.frame(
               c(0, 1.6), # this distance should be 0.45
               rep(0.02, 2)
-              ), 
+              ),
               aes(x = c(0, 1.6),
                   y = rep(0.02, 2)),
-              color = "blue", 
-              size = line_size, 
+              color = "blue",
+              size = line_size,
               alpha = alph_line) +
+    # RED BEST OF 7 LINE
+    geom_line(
+              data = data.frame(
+              c(0, 1.6), # this distance should be 0.45
+              rep(0.052, 2)
+              ),
+              aes(x = c(0, 1.6),
+                  y = rep(0.052, 2)),
+              color = "red",
+              size = line_size,
+              alpha = alph_line) +
+    # BLUE BEST OF 7 DOTS
+    geom_point(
+               data = data.frame(
+               seq(red_data[1,1], blue_data[28,1], 
+                    (blue_data[28,1]-red_data[1,1])/6),
+               rep(red_data[1,1], 7) -0.034), 
+               aes(x=seq(red_data[1,1], blue_data[28,1], 
+                        (blue_data[28,1]-red_data[1,1])/6),
+                   y=rep(red_data[1,1], 7) -0.034), 
+               color = "blue", 
+               size = dot_size, 
+               alpha = alph_line) +
+    # RED BEST OF 7 DOTS
+    geom_point(
+               data = data.frame(
+               seq(red_data[1,1], blue_data[28,1], 
+                    (blue_data[28,1]-red_data[1,1])/6),
+               rep(red_data[1,1], 7) -0.001), 
+               aes(x=seq(red_data[1,1], blue_data[28,1], 
+                        (blue_data[28,1]-red_data[1,1])/6),
+                   y=rep(red_data[1,1], 7) -0.001), 
+               color = "red", 
+               size = dot_size, 
+               alpha = alph_line) +  
     scale_x_continuous(breaks = seq(0,8,2), 
-                       limits = c(-1,8.1), 
+                       limits = c(-0.05,8.1), 
                        expand = c(0, 0)) +
     scale_y_continuous(breaks = seq(0,2,1), 
                        limits = c(-0.025,2.15), 
@@ -253,7 +289,11 @@ board +
   theme(panel.background = element_rect(fill = "gray42"),
         axis.title.x = element_blank(),axis.title.y=element_blank(), # Removes Axis Title
         axis.text.x=element_blank(),axis.text.y=element_blank(),  # Removes Axis Numbers 
-        axis.ticks.x=element_blank(),axis.ticks.y=element_blank()
+        axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),
+        axis.line = element_blank(),
+        axis.line.y.left = element_blank(),
+        plot.background = element_rect(fill = "gray42"), # how I made everything gray
+        plot.margin = margin(0,0,-3,-3, "pt")            # how I made everything gray
         )# Removes Axis Ticks
         # scale_x_continuous(limits = c(0,8), expand = c(0, 0)) + # Trims Extra Parts of Graph
         
@@ -261,6 +301,12 @@ board +
 aspect_ratio <- 3 # Not Sure why but 3 scales us to 4 better than 4 does:(
 height <- 5
 ggsave("board.png", height = 5 , width = 5 * aspect_ratio)
+library(png)
+filename <- system.file("img", "board.png", package="png")
+img <- readPNG(filename)
+# stuck?? read this: 
+link = "https://stackoverflow.com/questions/14093834/unable-to-open-png-device-in-loop"
+grid::grid.raster(img)
 ```
 
 # Getting coordinates for holes
