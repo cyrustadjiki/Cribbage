@@ -14,11 +14,13 @@ Notes:
 3. I believe Barbra said holes are drilled 1/8 inch thick
 4. I would like to use metal pegs and carve out the bottom to put a magnet there
 5. Also I would like to have a best to seven and room for pegs to start
+6. Add skunk lines
 
 # Loading Packages
 ```{r, warning=FALSE}
 library(ggplot2)
 library(ggthemes)
+library(tidyverse)
 ```
 
 # Setting Parameters for sin functions
@@ -301,16 +303,40 @@ board +
 aspect_ratio <- 3 # Not Sure why but 3 scales us to 4 better than 4 does:(
 height <- 5
 ggsave("board.png", height = 5 , width = 5 * aspect_ratio)
-library(png)
-filename <- system.file("img", "board.png", package="png")
-img <- readPNG(filename)
-# stuck?? read this: 
-link = "https://stackoverflow.com/questions/14093834/unable-to-open-png-device-in-loop"
-grid::grid.raster(img)
+# library(png)
+# filename <- system.file("img", "board.png", package="png")
+# img <- readPNG(filename)
+# # stuck?? read this: 
+# link = "https://stackoverflow.com/questions/14093834/unable-to-open-png-device-in-loop"
+# grid::grid.raster(img)
 ```
 
 # Getting coordinates for holes
 ```{r}
+
+# This is from finding_special_coordinates.R
+blue_start_dots = data.frame(
+  x = rep(red_data_clean[1,1], 3) -0.04,
+  y = seq(1.04, 0.89, (-0.15)/2)
+  )
+
+red_start_dots = data.frame(
+  x = rep(red_data_clean[1,1], 3),
+  y = seq(1.04, 0.89, (-0.15)/2)
+  )
+
+blue_b7_dots = data.frame(
+  x = seq(red_data[1,1], blue_data[28,1], 
+      (blue_data[28,1]-red_data[1,1])/6),
+  y = rep(red_data[1,1], 7) -0.034
+  )
+
+red_b7_dots = data.frame(
+  x = seq(red_data[1,1], blue_data[28,1], 
+      (blue_data[28,1]-red_data[1,1])/6),
+  y = rep(red_data[1,1], 7) -0.001
+  )
+
 # removing spaces coordinates
 blue_data = blue_data[-c(seq(6,145,6)),]
 red_data = red_data[-c(seq(6,145,6)),]
@@ -319,9 +345,25 @@ red_data = red_data[-c(seq(6,145,6)),]
 names(blue_data) = c("x", "y")
 names(red_data) = c("x", "y")
 
-# binding data sets
-coordinates = rbind(blue_data, red_data)
 
+# binding data sets
+coordinates = rbind(
+  blue_data, 
+  red_data,
+  blue_start_dots,
+  red_start_dots,
+  blue_b7_dots,
+  red_b7_dots
+  ) %>% cbind(
+type = c(
+  rep("blue holes",121),
+  rep("red holes",121),
+  rep("blue start",3),
+  rep("red start",3),
+  rep("blue overall",7),
+  rep("red overall",7)
+)
+)
 # rounding columns
 coordinates[1] = round(coordinates[1],4)
 coordinates[2] = round(coordinates[2],4)
