@@ -11,9 +11,9 @@ Notes:
 0. Remove white boarder
 1. See ration of saved image at bottom
 2. I'm thinking for dimension no longer than 16 inched and wider than 5 inches
+2.1 Probably 5x15 in.
 3. I believe Barbra said holes are drilled 1/8 inch thick
 4. I would like to use metal pegs and carve out the bottom to put a magnet there
-5. Also I would like to have a best to seven and room for pegs to start
 6. Add skunk lines
 
 # Loading Packages
@@ -21,6 +21,7 @@ Notes:
 library(ggplot2)
 library(ggthemes)
 library(tidyverse)
+# Hello World! Test 123
 ```
 
 # Setting Parameters for sin functions
@@ -139,7 +140,7 @@ red_data_clean = data.frame(red_x,red_y_original)
 ```
 
 # Plot
-```{r, warning=FALSE}
+```{r, warning=TRUE}
 # Parameters for lines
 line_size = 2.5
 dot_size = 1.75
@@ -277,7 +278,18 @@ board = ggplot() +
                    y=rep(red_data[1,1], 7) -0.001), 
                color = "red", 
                size = dot_size, 
-               alpha = alph_line) +  
+               alpha = alph_line) +
+    # SKUNK LINE FOR BLUE
+    geom_line(
+              data = data.frame(
+              x = rep(5.84 ,2),  # x
+              y = c(1.9,2.1)     # y
+              ), 
+              aes(x = x, y = y)
+              # ,
+              # color = NULL,
+              # size = NULL
+    ) +
     scale_x_continuous(breaks = seq(0,8,2), 
                        limits = c(-0.05,8.1), 
                        expand = c(0, 0)) +
@@ -303,12 +315,32 @@ board +
 aspect_ratio <- 3 # Not Sure why but 3 scales us to 4 better than 4 does:(
 height <- 5
 ggsave("board.png", height = 5 , width = 5 * aspect_ratio)
-# library(png)
-# filename <- system.file("img", "board.png", package="png")
-# img <- readPNG(filename)
-# # stuck?? read this: 
-# link = "https://stackoverflow.com/questions/14093834/unable-to-open-png-device-in-loop"
-# grid::grid.raster(img)
+library(png)
+filename <- system.file("img", "board.png", package="png")
+png("C:/Users/cyrus/OneDrive/Cribbage/board.png", 
+    width = 15, 
+    height = 5, 
+    units = "in", 
+    res = 300)
+img <- readPNG(filename)
+grid::grid.raster(img)
+
+
+library(png)
+img <- readPNG(filename)
+grid::grid.raster(img)
+
+filename <- system.file(getwd(), "board.png", package="png")  # or your own file
+filename = "board.png"
+temp <- tempfile(fileext = ".html")
+writeLines(as.character(htmltools::img(src=knitr::image_uri(filename))), temp)
+getOption("viewer")(temp)
+
+print(image_read("board.png"), info = FALSE)
+library(magick)
+filename <- system.file("img", "Rlogo.png", package="png")
+
+image_read(filename)
 ```
 
 # Getting coordinates for holes
